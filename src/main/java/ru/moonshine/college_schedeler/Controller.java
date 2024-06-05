@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,22 +48,22 @@ public class Controller implements Initializable {
     private Button classroomUpdate;
 
     @FXML
-    private ComboBox<classroomData> comboClassrom;
+    private ComboBox<Integer> comboClassrom;
 
     @FXML
-    private ComboBox<courseData> comboCourse;
+    private ComboBox<Integer> comboCourse;
 
     @FXML
-    private ComboBox<groupData> comboGroup;
+    private ComboBox<String> comboGroup;
 
     @FXML
     private ComboBox<String> comboLesson;
 
     @FXML
-    private ComboBox<?> comboNum;
+    private ComboBox<Integer> comboNum;
 
     @FXML
-    private ComboBox<?> comboTeacher;
+    private ComboBox<String> comboTeacher;
 
     @FXML
     private Button course;
@@ -287,6 +288,12 @@ public class Controller implements Initializable {
     private TableView<timeData> timeTable;
 
     @FXML
+    private TextField timeNum;
+
+    @FXML
+    private TableColumn<?, ?> timeNumCol;
+
+    @FXML
     private Button timeUpdate;
 
     private Connection con;
@@ -309,7 +316,7 @@ public class Controller implements Initializable {
             result = prepare.executeQuery();
 
             while (result.next()){
-                teacherData = new teacherData(result.getInt("Id"),
+                teacherData = new teacherData(result.getInt("id"),
                         result.getString("surname"),
                         result.getString("name"),
                         result.getString("patronymic"),
@@ -375,8 +382,9 @@ public class Controller implements Initializable {
 
         if ((num -1) < -1){return;}
 
-        teacherName.setText(String.valueOf(teacherData.getTeacher_name()));
+        teacherId.setText(String.valueOf(teacherData.getTeacher_id()));
         teacherSurname.setText(String.valueOf(teacherData.getTeacher_surname()));
+        teacherName.setText(String.valueOf(teacherData.getTeacher_name()));
         teacherPatronymic.setText(String.valueOf(teacherData.getTeacher_patronymic()));
         teacherMail.setText(String.valueOf(teacherData.getTeacher_email()));
         teacherPhone.setText(String.valueOf(teacherData.getPhone()));
@@ -537,6 +545,7 @@ public class Controller implements Initializable {
 
             while (result.next()){
                 timeData = new timeData(result.getInt("id"),
+                        result.getInt("number"),
                         result.getString("start"),
                         result.getString("end"));
 
@@ -554,6 +563,7 @@ public class Controller implements Initializable {
         addTimeList = addTime();
 
         timeIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        timeNumCol.setCellValueFactory(new PropertyValueFactory<>("num"));
         timeStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         timeEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
 
@@ -567,55 +577,37 @@ public class Controller implements Initializable {
         if ((num -1) < -1){return;}
 
         timeId.setText(String.valueOf(timeData.getId()));
+        timeNum.setText(String.valueOf(timeData.getNum()));
         timeStart.setText(String.valueOf(timeData.getStart()));
         timeEnd.setText(String.valueOf(timeData.getEnd()));
 
     }
 
 
-    public void comboClassroom (){
-        ObservableList<classroomData> listData = FXCollections.observableArrayList();
-        String sql = "SELECT classroom.`number` FROM classroom";
-
-        con = Database.connectDB();
-        try{
-            classroomData classroomData;
-            prepare = con.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            while (result.next()){
-//                classroomData = new classroomData(result.getInt("number"));
-
-                listData.add(new classroomData(result.getInt("number")));
-            }
-            comboClassrom.setItems(listData);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public void setComboCourse (){
-        ObservableList<courseData> listData = FXCollections.observableArrayList();
         String sql = "SELECT `number` FROM course";
-
+        List<Integer> list = new ArrayList<Integer>();
         con = Database.connectDB();
         try{
             prepare = con.prepareStatement(sql);
             result = prepare.executeQuery();
 
             while (result.next()){
-//                classroomData = new classroomData(result.getInt("number"));
 
-                listData.add(new courseData(result.getInt("number")));
+                int num = result.getInt("number");
+                list.add(num);
+                ObservableList<Integer> lesNum = FXCollections.observableArrayList(list);
+                comboCourse.setItems(lesNum);
             }
-            comboCourse.setItems(listData);
+
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
     public void setComboGroup (){
-        ObservableList<groupData> listData = FXCollections.observableArrayList();
+        List<String> list = new ArrayList<String>();
         String sql = "SELECT `title` FROM `group`";
 
         con = Database.connectDB();
@@ -624,38 +616,97 @@ public class Controller implements Initializable {
             result = prepare.executeQuery();
 
             while (result.next()){
-                groupData groupData = new groupData(result.getString("title"));
-
-                listData.add(groupData);
+                String str = result.getString("title");
+                list.add(str);
+                ObservableList<String> lesNum = FXCollections.observableArrayList(list);
+                comboGroup.setItems(lesNum);
             }
-            comboGroup.setItems(listData);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-//    public ObservableList<String> addComboLesson(){
-//        ObservableList<lessonData> listLesson = FXCollections.observableArrayList();
-//
-//        String sql = "SELECT title FROM lesson";
-//
-//        con = Database.connectDB();
-//        try{
-//            prepare = con.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            while (result.next()){
-//                String[] lesson = new String[];
-//
-//                ObservableList<String> options = FXCollections.observableArrayList(test);
-//
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }return les;
-//    }
+    public void setComboTeacher(){
+        List<String> list = new ArrayList<String>();
+        String sql = "SELECT `surname`, `name` FROM `teacher`";
 
+        con = Database.connectDB();
+        try{
+            prepare = con.prepareStatement(sql);
+            result = prepare.executeQuery();
 
+            while (result.next()){
+                String str = result.getString("surname");
+                list.add(str);
+                ObservableList<String> lesNum = FXCollections.observableArrayList(list);
+                comboTeacher.setItems(lesNum);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setComboLesson (){
+        List<String> list = new ArrayList<String>();
+        String sql = "SELECT `title` FROM `lesson`";
+
+        con = Database.connectDB();
+        try{
+            prepare = con.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()){
+                String str = result.getString("title");
+                list.add(str);
+                ObservableList<String> lesNum = FXCollections.observableArrayList(list);
+                comboLesson.setItems(lesNum);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setComboClassrom(){
+        String sql = "SELECT `number` FROM classroom";
+        List<Integer> list = new ArrayList<Integer>();
+        con = Database.connectDB();
+        try{
+            prepare = con.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()){
+
+                int num = result.getInt("number");
+                list.add(num);
+                ObservableList<Integer> lesNum = FXCollections.observableArrayList(list);
+                comboClassrom.setItems(lesNum);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setComboTime(){
+        String sql = "SELECT `number` FROM `time`";
+        List<Integer> list = new ArrayList<Integer>();
+        con = Database.connectDB();
+        try{
+            prepare = con.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()){
+
+                int num = result.getInt("number");
+                list.add(num);
+                ObservableList<Integer> lesNum = FXCollections.observableArrayList(list);
+                comboNum.setItems(lesNum);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -676,7 +727,7 @@ public class Controller implements Initializable {
     }
 
     public void createCourse(){
-        String insertData = "INSERT INTO course (number) VALUES (" +courseTitle.getText() +");";
+        String insertData = "INSERT INTO course (`number`) VALUES (" +courseTitle.getText() +");";
 
         con = Database.connectDB();
         try {
@@ -728,7 +779,7 @@ public class Controller implements Initializable {
     }
 
     public void createTime(){
-        String insertData = "INSERT INTO `time` (`start`, `end`) VALUES ('" +timeStart.getText() + "', '" + timeEnd.getText() + "');";
+        String insertData = "INSERT INTO `time` (`number`,`start`, `end`) VALUES ('" + timeNum.getText() + "', '" +timeStart.getText() + "', '" + timeEnd.getText() + "');";
 
         con = Database.connectDB();
         try {
@@ -806,7 +857,7 @@ public class Controller implements Initializable {
     }
 
     public void updateTime(){
-        String updateData = "UPDATE `college_schedule`.`time` SET `start` = '" + timeStart.getText() +"', `end` = '" + timeEnd.getText() +"' WHERE (`id` =" + timeId.getText() + ");";
+        String updateData = "UPDATE `college_schedule`.`time` SET `number` = '" +timeNum.getText()+"',`start` = '" + timeStart.getText() +"', `end` = '" + timeEnd.getText() +"' WHERE (`id` =" + timeId.getText() + ");";
 
         con = Database.connectDB();
         try {
@@ -915,9 +966,12 @@ public class Controller implements Initializable {
             teacher.setStyle("-fx-background-color: transparent;");
             lessons.setStyle("-fx-background-color: transparent;");
 
-            comboClassroom();
             setComboCourse();
             setComboGroup();
+            setComboLesson();
+            setComboClassrom();
+            setComboTime();
+            setComboTeacher();
         } else if (event.getSource() == classroom){
             classroomPage.setVisible(true);
             schedulePage.setVisible(false);
@@ -1040,10 +1094,12 @@ public class Controller implements Initializable {
         addGroupShowList();
         addLessonShowList();
         addTimeShowList();
-        comboClassroom();
         setComboCourse();
         setComboGroup();
-
+        setComboLesson();
+        setComboClassrom();
+        setComboTime();
+        setComboTeacher();
     }
 
 }

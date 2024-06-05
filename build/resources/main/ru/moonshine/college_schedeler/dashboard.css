@@ -32,6 +32,14 @@
     -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772);
     -fx-border-radius: 8px;
 }
+
+.text-field{
+     -fx-background-color: transparent;
+     -fx-padding: 0;
+     -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772);
+     -fx-border-radius: 8px;
+      padding: 10px;
+ }
 .table-view .column-header-background{
     -fx-background-color: linear-gradient(to bottom right, #2d658c, #2ca772);
     -fx-background-radius: 8px 8px 0 0;
