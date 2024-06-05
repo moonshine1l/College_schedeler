@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.openjfx.javafxplugin' version '0.0.12'
     id 'org.beryx.jlink' version '2.24.1'
 }
 
@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'ru.moonshine.college_schedeler'
-    mainClass = 'ru.moonshine.college_schedeler.HelloApplication'
+    mainClass = 'ru.moonshine.college_schedeler.App'
 }
 
 javafx {
@@ -51,6 +51,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
 
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
