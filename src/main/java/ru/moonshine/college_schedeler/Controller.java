@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.*;
-import java.time.LocalTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -56,7 +56,7 @@ public class Controller implements Initializable {
     private ComboBox<groupData> comboGroup;
 
     @FXML
-    private ComboBox<lessonData> comboLesson;
+    private ComboBox<String> comboLesson;
 
     @FXML
     private ComboBox<?> comboNum;
@@ -508,7 +508,9 @@ public class Controller implements Initializable {
         lessonIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         lessonTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 
+
         lessonTable.setItems(addLessonList);
+
     }
 
     public void addSelectedLesson(){
@@ -632,27 +634,31 @@ public class Controller implements Initializable {
         }
     }
 
-    public ObservableList<lessonData> addComboLesson(){
-        ObservableList<lessonData> listLesson = FXCollections.observableArrayList();
+//    public ObservableList<String> addComboLesson(){
+//        ObservableList<lessonData> listLesson = FXCollections.observableArrayList();
+//
+//        String sql = "SELECT title FROM lesson";
+//
+//        con = Database.connectDB();
+//        try{
+//            prepare = con.prepareStatement(sql);
+//            result = prepare.executeQuery();
+//
+//            while (result.next()){
+//                String[] lesson = new String[];
+//
+//                ObservableList<String> options = FXCollections.observableArrayList(test);
+//
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }return les;
+//    }
 
-        String sql = "SELECT title FROM lesson";
 
-        con = Database.connectDB();
-        try{
-            lessonData lessonData;
-            prepare = con.prepareStatement(sql);
-            result = prepare.executeQuery();
 
-            while (result.next()){
-                lessonData = new lessonData(result.getString("title"));
 
-                listLesson.add(lessonData);
-            }
-            comboLesson.setItems(listLesson);
-        } catch (Exception e){
-            e.printStackTrace();
-        }return listLesson;
-    }
+
 
 
 
@@ -1037,7 +1043,7 @@ public class Controller implements Initializable {
         comboClassroom();
         setComboCourse();
         setComboGroup();
-        addComboLesson();
+
     }
 
 }

@@ -82,7 +82,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="teacherTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="teacherTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedTeacher" prefHeight="200.0" prefWidth="850.0">
                                                    <columns>
                                                       <TableColumn fx:id="teacherIdCol" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="teacherSurnameCol" prefWidth="180.0" text="Фамилия" />
@@ -151,7 +151,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="lessonTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="lessonTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedLesson" prefHeight="200.0" prefWidth="850.0">
                                                    <columns>
                                                       <TableColumn fx:id="lessonIdCol" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="lessonTitleCol" prefWidth="795.0" text="Название дисциплины" />
@@ -192,7 +192,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="classroomTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="classroomTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedClassroom" prefHeight="200.0" prefWidth="850.0">
                                                    <columns>
                                                       <TableColumn fx:id="classroomIdCol" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="classroomNumCol" prefWidth="795.0" text="Номер кабинета" />
@@ -233,7 +233,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="courseTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="courseTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedCourse" prefHeight="200.0" prefWidth="850.0">
                                                    <columns>
                                                       <TableColumn fx:id="courseIdCol" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="courseTitleCol" prefWidth="795.0" text="Номер курса" />
@@ -274,7 +274,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="groupTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="groupTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedGroup" prefHeight="200.0" prefWidth="850.0">
                                                    <columns>
                                                       <TableColumn fx:id="groupIdCol" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="groupTitleCol" prefWidth="795.0" text="Название группы" />
@@ -315,7 +315,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="timeTable" layoutX="13.0" layoutY="75.0" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="timeTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addSelectedTime" prefHeight="200.0" prefWidth="850.0">
                                                   <columns>
                                                       <TableColumn fx:id="timeIdCol" prefWidth="54.0" text="id" />
                                                     <TableColumn fx:id="timeStartCol" prefWidth="390.0" text="Время начала" />

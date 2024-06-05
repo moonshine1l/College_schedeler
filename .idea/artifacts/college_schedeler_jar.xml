@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="college_schedeler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/college_schedeler_jar</output-path>
+    <root id="root">
+      <element id="archive" name="college_schedeler.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
