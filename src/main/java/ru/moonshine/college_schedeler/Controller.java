@@ -298,7 +298,6 @@ public class Controller implements Initializable {
 
     private Connection con;
     private PreparedStatement prepare;
-    private Statement statement;
     private ResultSet result;
 
 
@@ -721,43 +720,50 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addClassroomShowList();
+            classroomNum.setText("");
+            classroomId.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void createSchedule(){
-        String selectCourse = "SELECT `id` FROM `course` WHERE `number` = '"+ comboCourse.getValue() + "';";
-        String selectGroup = "SELECT `id` FROM `group` WHERE `title` = '"+ comboGroup.getValue() + "';";
-        String selectNum = "SELECT `id` FROM `time` WHERE `number` = '"+ comboNum.getValue() + "';";
-        String selectLesson = "SELECT `id` FROM `lesson` WHERE `title` = '"+ comboLesson.getValue() + "';";
-        String selectTeacher = "SELECT `id` FROM `teacher` WHERE `surname` = '"+ comboTeacher.getValue() + "';";
-        String selectClassroom = "SELECT `id` FROM `classroom` WHERE `number` = '"+ comboLesson.getValue() + "';";
-
-        con = Database.connectDB();
-        try {
-            PreparedStatement lesson = con.prepareStatement(selectLesson);
-            PreparedStatement classroom = con.prepareStatement(selectClassroom);
-            PreparedStatement teacher = con.prepareStatement(selectTeacher);
-            PreparedStatement time = con.prepareStatement(selectNum);
-            PreparedStatement group = con.prepareStatement(selectGroup);
-            PreparedStatement course = con.prepareStatement(selectCourse);
-            ResultSet lessonres = lesson.executeQuery();
-            System.out.println(lessonres);
-            ResultSet classroomRes = classroom.executeQuery();
-            ResultSet teacherRes = teacher.executeQuery();
-            ResultSet timeRes = time.executeQuery();
-            ResultSet groupRes = group.executeQuery();
-            ResultSet courseRes = course.executeQuery();
-            String insertData = "INSERT INTO `college_schedule`.`schedule` (`date`, `lesson_id`, `classroom_id`, " +
-                    "`teacher_id`, `time_id`, `group_id`, `course_id`) VALUES " +
-                    "('" + date.getValue() + "', '" + lessonres.first() + "', '"+ classroomRes.first() + "', '"+ teacherRes.first()+"', '"+timeRes.first()+"', '"+groupRes.first()+"', '"+ courseRes.first()+"');\n";
-            prepare = con.prepareStatement(insertData);
-            prepare.executeUpdate();
-            addClassroomShowList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void createSchedule(){
+//        String selectCourse = "SELECT `id` FROM `course` WHERE `number` = '"+ comboCourse.getValue() + "';";
+//        String selectGroup = "SELECT `id` FROM `group` WHERE `title` = '"+ comboGroup.getValue() + "';";
+//        String selectNum = "SELECT `id` FROM `time` WHERE `number` = '"+ comboNum.getValue() + "';";
+//        String selectLesson = "SELECT `id` FROM `lesson` WHERE `title` = '"+ comboLesson.getValue() + "';";
+//        String selectTeacher = "SELECT `id` FROM `teacher` WHERE `surname` = '"+ comboTeacher.getValue() + "';";
+//        String selectClassroom = "SELECT `id` FROM `classroom` WHERE `number` = '"+ comboLesson.getValue() + "';";
+//
+//        con = Database.connectDB();
+//        try {
+//            PreparedStatement lesson = con.prepareStatement(selectLesson);
+//            ResultSet lessonres = lesson.executeQuery();
+//
+//            PreparedStatement classroom = con.prepareStatement(selectClassroom);
+//            ResultSet classroomRes = classroom.executeQuery();
+//
+//            PreparedStatement teacher = con.prepareStatement(selectTeacher);
+//            ResultSet teacherRes = teacher.executeQuery();
+//
+//            PreparedStatement time = con.prepareStatement(selectNum);
+//            ResultSet timeRes = time.executeQuery();
+//
+//            PreparedStatement group = con.prepareStatement(selectGroup);
+//            ResultSet groupRes = group.executeQuery();
+//
+//            PreparedStatement course = con.prepareStatement(selectCourse);
+//            ResultSet courseRes = course.executeQuery();
+//
+//            String insertData = "INSERT INTO `college_schedule`.`schedule` (`date`, `lesson_id`, `classroom_id`, " +
+//                    "`teacher_id`, `time_id`, `group_id`, `course_id`) VALUES " +
+//                    "('" + date.getValue() + "', '" + le + "', '"+ cr + "', '"+ tr+"', '"+timer+"', '"+gr+"', '"+ cr+"');\n";
+//            prepare = con.prepareStatement(insertData);
+//            prepare.executeUpdate();
+//            addClassroomShowList();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void createCourse(){
         String insertData = "INSERT INTO course (`number`) VALUES (" +courseTitle.getText() +");";
@@ -767,6 +773,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addCourseShowList();
+            courseId.setText("");
+            courseTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -780,6 +788,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addGroupShowList();
+            groupId.setText("");
+            groupTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -793,6 +803,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addLessonShowList();
+            lessonId.setText("");
+            lessonTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -806,6 +818,11 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addTeacherShowList();
+            teacherPhone.setText("");
+            teacherMail.setText("");
+            teacherSurname.setText("");
+            teacherName.setText("");
+            teacherPatronymic.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -819,6 +836,10 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
             addTimeShowList();
+            timeNum.setText("");
+            timeStart.setText("");
+            timeId.setText("");
+            timeEnd.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -832,6 +853,12 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updatetData);
             prepare.executeUpdate();
             addTeacherShowList();
+            teacherId.setText("");
+            teacherPhone.setText("");
+            teacherMail.setText("");
+            teacherSurname.setText("");
+            teacherName.setText("");
+            teacherPatronymic.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -845,6 +872,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addClassroomShowList();
+            classroomNum.setText("");
+            classroomId.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -858,6 +887,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addCourseShowList();
+            courseId.setText("");
+            courseTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -871,6 +902,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addGroupShowList();
+            groupId.setText("");
+            groupTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -884,6 +917,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addLessonShowList();
+            lessonId.setText("");
+            lessonTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -897,6 +932,10 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addTimeShowList();
+            timeNum.setText("");
+            timeStart.setText("");
+            timeId.setText("");
+            timeEnd.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -910,6 +949,10 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addTimeShowList();
+            timeNum.setText("");
+            timeStart.setText("");
+            timeId.setText("");
+            timeEnd.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -923,6 +966,11 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addTeacherShowList();
+            teacherPhone.setText("");
+            teacherMail.setText("");
+            teacherSurname.setText("");
+            teacherName.setText("");
+            teacherPatronymic.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -936,6 +984,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addClassroomShowList();
+            classroomId.setText("");
+            classroomNum.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -949,6 +999,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addCourseShowList();
+            courseId.setText("");
+            courseTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -962,6 +1014,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addGroupShowList();
+            groupId.setText("");
+            groupTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -975,6 +1029,8 @@ public class Controller implements Initializable {
             prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addLessonShowList();
+            lessonId.setText("");
+            lessonTitle.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -3,8 +3,6 @@ package ru.moonshine.college_schedeler;
 public class timeData {
 
     private Integer id;
-
-
     private Integer num;
     private String start, end;
 

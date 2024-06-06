@@ -7,6 +7,6 @@ public class scheduleData {
     private Integer id;
     private LocalDate date;
 
-
+//дописать 
 
 }
