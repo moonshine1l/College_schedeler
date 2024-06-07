@@ -192,7 +192,7 @@ public class Controller implements Initializable {
     private AnchorPane schedulePage;
 
     @FXML
-    private TableView<?> scheduleTable;
+    private TableView<scheduleData> scheduleTable;
 
     @FXML
     private TableColumn<?, ?> scheduleTeacherCol;
@@ -556,6 +556,75 @@ public class Controller implements Initializable {
         }return listTime;
     }
 
+    public ObservableList<scheduleData> addSchedule(){
+        ObservableList<scheduleData> listSchedule = FXCollections.observableArrayList();
+
+        String sql = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id;";
+
+        con = Database.connectDB();
+        try{
+            scheduleData scheduleData;
+            prepare = con.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()){
+                scheduleData = new scheduleData(result.getInt("id"),
+                        result.getDate("date"),
+                        result.getInt("course"),
+                        result.getString("group"),
+                        result.getInt("time"),
+                        result.getString("lesson"),
+                        result.getString("teacher"),
+                        result.getInt("classroom"));
+
+                listSchedule.add(scheduleData);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }return listSchedule;
+    }
+
+    private ObservableList <scheduleData> addScheduleList;
+    public void addScheduleShowList(){
+        addScheduleList = addSchedule();
+
+        scheduleIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        scheduleDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        scheduleCourseCol.setCellValueFactory(new PropertyValueFactory<>("course"));
+        scheduleGroupCol.setCellValueFactory(new PropertyValueFactory<>("group"));
+        scheduleNumCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        scheduleLessonCol.setCellValueFactory(new PropertyValueFactory<>("lesson"));
+        scheduleTeacherCol.setCellValueFactory(new PropertyValueFactory<>("teacher"));
+        scheduleClassroomCol.setCellValueFactory(new PropertyValueFactory<>("classroom"));
+
+
+        scheduleTable.setItems(addScheduleList);
+    }
+
+    public void addScheduleTime(){
+        scheduleData scheduleData = scheduleTable.getSelectionModel().getSelectedItem();
+        int num = scheduleTable.getSelectionModel().getSelectedIndex();
+
+        if ((num -1) < -1){return;}
+
+        scheduleId.setText(String.valueOf(scheduleData.getId()));
+        scheduleCourseCol.setText(String.valueOf(scheduleData.getCourse()));
+        
+    }
+
 
     private ObservableList <timeData> addTimeList;
     public void addTimeShowList(){
@@ -726,44 +795,51 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-//    public void createSchedule(){
-//        String selectCourse = "SELECT `id` FROM `course` WHERE `number` = '"+ comboCourse.getValue() + "';";
-//        String selectGroup = "SELECT `id` FROM `group` WHERE `title` = '"+ comboGroup.getValue() + "';";
-//        String selectNum = "SELECT `id` FROM `time` WHERE `number` = '"+ comboNum.getValue() + "';";
-//        String selectLesson = "SELECT `id` FROM `lesson` WHERE `title` = '"+ comboLesson.getValue() + "';";
-//        String selectTeacher = "SELECT `id` FROM `teacher` WHERE `surname` = '"+ comboTeacher.getValue() + "';";
-//        String selectClassroom = "SELECT `id` FROM `classroom` WHERE `number` = '"+ comboLesson.getValue() + "';";
-//
-//        con = Database.connectDB();
-//        try {
-//            PreparedStatement lesson = con.prepareStatement(selectLesson);
-//            ResultSet lessonres = lesson.executeQuery();
-//
-//            PreparedStatement classroom = con.prepareStatement(selectClassroom);
-//            ResultSet classroomRes = classroom.executeQuery();
-//
-//            PreparedStatement teacher = con.prepareStatement(selectTeacher);
-//            ResultSet teacherRes = teacher.executeQuery();
-//
-//            PreparedStatement time = con.prepareStatement(selectNum);
-//            ResultSet timeRes = time.executeQuery();
-//
-//            PreparedStatement group = con.prepareStatement(selectGroup);
-//            ResultSet groupRes = group.executeQuery();
-//
-//            PreparedStatement course = con.prepareStatement(selectCourse);
-//            ResultSet courseRes = course.executeQuery();
-//
-//            String insertData = "INSERT INTO `college_schedule`.`schedule` (`date`, `lesson_id`, `classroom_id`, " +
-//                    "`teacher_id`, `time_id`, `group_id`, `course_id`) VALUES " +
-//                    "('" + date.getValue() + "', '" + le + "', '"+ cr + "', '"+ tr+"', '"+timer+"', '"+gr+"', '"+ cr+"');\n";
-//            prepare = con.prepareStatement(insertData);
-//            prepare.executeUpdate();
-//            addClassroomShowList();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void createSchedule(){
+        String selectCourse = "SELECT `id` FROM `course` WHERE `number` = "+ comboCourse.getValue() + ";";
+        String selectGroup = "SELECT `id` FROM `group` WHERE `title` = '"+ comboGroup.getValue() + "';";
+        String selectNum = "SELECT `id` FROM `time` WHERE `number` = "+ comboNum.getValue() + ";";
+        String selectLesson = "SELECT `id` FROM `lesson` WHERE `title` = '"+ comboLesson.getValue() + "';";
+        String selectTeacher = "SELECT `id` FROM `teacher` WHERE `surname` = '"+ comboTeacher.getValue() + "';";
+        String selectClassroom = "SELECT `id` FROM `classroom` WHERE `number` = "+ comboClassrom.getValue() + ";";
+
+        con = Database.connectDB();
+        try {
+            PreparedStatement lesson = con.prepareStatement(selectLesson, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            ResultSet lessonres = lesson.executeQuery();
+            lessonres.next();
+
+            PreparedStatement classroom = con.prepareStatement(selectClassroom);
+            ResultSet classroomRes = classroom.executeQuery();
+            classroomRes.next();
+
+            PreparedStatement teacher = con.prepareStatement(selectTeacher);
+            ResultSet teacherRes = teacher.executeQuery();
+            teacherRes.next();
+
+            PreparedStatement time = con.prepareStatement(selectNum);
+            ResultSet timeRes = time.executeQuery();
+            timeRes.next();
+
+            PreparedStatement group = con.prepareStatement(selectGroup);
+            ResultSet groupRes = group.executeQuery();
+            groupRes.next();
+
+            PreparedStatement course = con.prepareStatement(selectCourse);
+            ResultSet courseRes = course.executeQuery();
+            courseRes.next();
+
+            String insertData = "INSERT INTO `college_schedule`.`schedule` (`date`, `lesson_id`, `classroom_id`, " +
+                    "`teacher_id`, `time_id`, `group_id`, `course_id`) VALUES " +
+                    "('" + date.getValue() + "', '" + lessonres.getInt("id") + "', '"+ classroomRes.getInt("id") + "', '"+ teacherRes.getInt("id")+"', '"+timeRes.getInt("id")+"', '"+groupRes.getInt("id")+"', '"+ courseRes.getInt("id")+"');\n";
+            prepare = con.prepareStatement(insertData);
+            prepare.executeUpdate();
+            addClassroomShowList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void createCourse(){
         String insertData = "INSERT INTO course (`number`) VALUES (" +courseTitle.getText() +");";
@@ -1183,6 +1259,7 @@ public class Controller implements Initializable {
         addGroupShowList();
         addLessonShowList();
         addTimeShowList();
+        addScheduleShowList();
         setComboCourse();
         setComboGroup();
         setComboLesson();

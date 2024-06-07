@@ -8,7 +8,7 @@ public class teacherData {
     private String teacher_email;
     private String phone;
 
-    public teacherData(Integer teacher_id, String teacher_name, String teacher_surname,
+    public teacherData(Integer teacher_id, String teacher_surname, String teacher_name,
                        String teacher_patronymic, String teacher_email, String phone){
         this.teacher_id = teacher_id;
         this.teacher_surname = teacher_surname;
