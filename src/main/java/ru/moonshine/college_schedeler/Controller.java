@@ -622,7 +622,7 @@ public class Controller implements Initializable {
 
         scheduleId.setText(String.valueOf(scheduleData.getId()));
         scheduleCourseCol.setText(String.valueOf(scheduleData.getCourse()));
-        
+
     }
 
 
@@ -835,7 +835,7 @@ public class Controller implements Initializable {
                     "('" + date.getValue() + "', '" + lessonres.getInt("id") + "', '"+ classroomRes.getInt("id") + "', '"+ teacherRes.getInt("id")+"', '"+timeRes.getInt("id")+"', '"+groupRes.getInt("id")+"', '"+ courseRes.getInt("id")+"');\n";
             prepare = con.prepareStatement(insertData);
             prepare.executeUpdate();
-            addClassroomShowList();
+            addScheduleShowList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1062,6 +1062,20 @@ public class Controller implements Initializable {
             addClassroomShowList();
             classroomId.setText("");
             classroomNum.setText("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSchedule(){
+        String updateData = "DELETE FROM `college_schedule`.`schedule` WHERE (`id` = '"+ scheduleId.getText()+"');";
+
+        con = Database.connectDB();
+        try {
+            prepare = con.prepareStatement(updateData);
+            prepare.executeUpdate();
+            scheduleId.setText("");
+            addScheduleShowList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
