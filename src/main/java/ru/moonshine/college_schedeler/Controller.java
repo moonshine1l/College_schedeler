@@ -621,7 +621,6 @@ public class Controller implements Initializable {
         if ((num -1) < -1){return;}
 
         scheduleId.setText(String.valueOf(scheduleData.getId()));
-        scheduleCourseCol.setText(String.valueOf(scheduleData.getCourse()));
 
     }
 
@@ -834,6 +833,53 @@ public class Controller implements Initializable {
                     "`teacher_id`, `time_id`, `group_id`, `course_id`) VALUES " +
                     "('" + date.getValue() + "', '" + lessonres.getInt("id") + "', '"+ classroomRes.getInt("id") + "', '"+ teacherRes.getInt("id")+"', '"+timeRes.getInt("id")+"', '"+groupRes.getInt("id")+"', '"+ courseRes.getInt("id")+"');\n";
             prepare = con.prepareStatement(insertData);
+            prepare.executeUpdate();
+            addScheduleShowList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSchedule(){
+        String selectCourse = "SELECT `id` FROM `course` WHERE `number` = "+ comboCourse.getValue() + ";";
+        String selectGroup = "SELECT `id` FROM `group` WHERE `title` = '"+ comboGroup.getValue() + "';";
+        String selectNum = "SELECT `id` FROM `time` WHERE `number` = "+ comboNum.getValue() + ";";
+        String selectLesson = "SELECT `id` FROM `lesson` WHERE `title` = '"+ comboLesson.getValue() + "';";
+        String selectTeacher = "SELECT `id` FROM `teacher` WHERE `surname` = '"+ comboTeacher.getValue() + "';";
+        String selectClassroom = "SELECT `id` FROM `classroom` WHERE `number` = "+ comboClassrom.getValue() + ";";
+
+        con = Database.connectDB();
+        try {
+            PreparedStatement lesson = con.prepareStatement(selectLesson, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            ResultSet lessonres = lesson.executeQuery();
+            lessonres.next();
+
+            PreparedStatement classroom = con.prepareStatement(selectClassroom);
+            ResultSet classroomRes = classroom.executeQuery();
+            classroomRes.next();
+
+            PreparedStatement teacher = con.prepareStatement(selectTeacher);
+            ResultSet teacherRes = teacher.executeQuery();
+            teacherRes.next();
+
+            PreparedStatement time = con.prepareStatement(selectNum);
+            ResultSet timeRes = time.executeQuery();
+            timeRes.next();
+
+            PreparedStatement group = con.prepareStatement(selectGroup);
+            ResultSet groupRes = group.executeQuery();
+            groupRes.next();
+
+            PreparedStatement course = con.prepareStatement(selectCourse);
+            ResultSet courseRes = course.executeQuery();
+            courseRes.next();
+
+            String updateData = "UPDATE `college_schedule`.`schedule` " +
+                    "SET `date` = '"+date.getValue()+"', `lesson_id` = '"+lessonres.getInt("id")+"', `classroom_id` = '"+classroomRes.getInt("id")+"', " +
+                    "`teacher_id` = '" + teacherRes.getInt("id") + "', `time_id` = '"+ timeRes.getInt("id") +"', `group_id` = '"+ groupRes.getInt("id") +"', " +
+                    "`course_id` = '" + courseRes.getInt("id") + "' WHERE (`id` = '"+ scheduleId.getText() +"');\n";
+            prepare = con.prepareStatement(updateData);
             prepare.executeUpdate();
             addScheduleShowList();
         } catch (SQLException e) {

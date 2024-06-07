@@ -394,45 +394,45 @@
                                              </font>
                                           </Label>
                                           <Button fx:id="scheduleAdd" layoutX="744.0" layoutY="463.0" mnemonicParsing="false" onAction="#createSchedule" prefHeight="35.0" prefWidth="85.0" styleClass="btn" stylesheets="@dashboard.css" text="Добавить" />
-                                          <Button fx:id="scheduleUpdate" layoutX="652.0" layoutY="463.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" styleClass="btn" stylesheets="@dashboard.css" text="Обновить" />
+                                          <Button fx:id="scheduleUpdate" layoutX="652.0" layoutY="463.0" mnemonicParsing="false" onAction="#updateSchedule" prefHeight="35.0" prefWidth="85.0" styleClass="btn" stylesheets="@dashboard.css" text="Обновить" />
                                           <Button layoutX="559.0" layoutY="463.0" mnemonicParsing="false" onAction="#deleteSchedule" prefHeight="35.0" prefWidth="85.0" styleClass="btn" stylesheets="@dashboard.css" text="Удалить" />
                                           <Label layoutX="62.0" layoutY="362.0" text="Дата">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <DatePicker fx:id="date" layoutX="98.0" layoutY="359.0" prefHeight="22.0" prefWidth="149.0" styleClass="table-view" stylesheets="@dashboard.css" />
-                                          <ComboBox fx:id="comboCourse" layoutX="98.0" layoutY="393.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <DatePicker fx:id="date" layoutX="98.0" layoutY="359.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboCourse" layoutX="98.0" layoutY="393.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="348.0" layoutY="403.0" text="Учитель">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboGroup" layoutX="98.0" layoutY="429.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboGroup" layoutX="98.0" layoutY="429.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="322.0" layoutY="369.0" text="Дисциплина">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboNum" layoutX="405.0" layoutY="329.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboNum" layoutX="405.0" layoutY="329.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="322.0" layoutY="333.0" text="Номер пары">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboLesson" layoutX="405.0" layoutY="365.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboLesson" layoutX="405.0" layoutY="365.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="347.0" layoutY="439.0" text="Кабинет">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboTeacher" layoutX="406.0" layoutY="399.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboTeacher" layoutX="406.0" layoutY="399.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="63.0" layoutY="397.0" text="Курс">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboClassrom" layoutX="406.0" layoutY="435.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
+                                          <ComboBox fx:id="comboClassrom" layoutX="406.0" layoutY="435.0" prefHeight="25.0" prefWidth="150.0" styleClass="table-view" stylesheets="@dashboard.css" />
                                           <Label layoutX="48.0" layoutY="433.0" text="Группа">
                                              <font>
                                                 <Font name="Tahoma" size="14.0" />
