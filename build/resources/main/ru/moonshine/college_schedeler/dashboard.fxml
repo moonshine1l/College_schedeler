@@ -370,7 +370,7 @@
                                        <children>
                                           <AnchorPane layoutX="2.0" prefHeight="291.0" prefWidth="873.0" stylesheets="@dashboard.css">
                                              <children>
-                                                <TableView fx:id="scheduleTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addScheduleTime" prefHeight="200.0" prefWidth="850.0">
+                                                <TableView fx:id="scheduleTable" layoutX="13.0" layoutY="75.0" onMouseClicked="#addScheduleTime" prefHeight="200.0" prefWidth="850.0" tableMenuButtonVisible="true">
                                                    <columns>
                                                       <TableColumn fx:id="scheduleIdColumn" prefWidth="54.0" text="id" />
                                                       <TableColumn fx:id="scheduleDateCol" prefWidth="85.0" text="Дата" />
@@ -381,6 +381,9 @@
                                                       <TableColumn fx:id="scheduleTeacherCol" prefWidth="150.0" text="Учитель" />
                                                       <TableColumn fx:id="scheduleClassroomCol" prefWidth="124.0" text="Кабинет" />
                                                    </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
                                                 </TableView>
                                              </children>
                                           </AnchorPane>
