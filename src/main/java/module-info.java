@@ -10,6 +10,8 @@ module ru.moonshine.college_schedeler {
 
     opens ru.moonshine.college_schedeler to javafx.fxml;
     exports ru.moonshine.college_schedeler;
+    exports ru.moonshine.college_schedeler.App;
+    opens ru.moonshine.college_schedeler.App to javafx.fxml;
 
 
 }

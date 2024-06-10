@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'ru.moonshine.college_schedeler'
-    mainClass = 'ru.moonshine.college_schedeler.App'
+    mainClass = 'ru.moonshine.college_schedeler.App.App'
 }
 
 javafx {
@@ -43,6 +43,10 @@ dependencies {
     }
 
     implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // https://mvnrepository.com/artifact/com.calendarfx/calendar
+    implementation 'com.calendarfx:calendar:11.12.7'
+
 
 }
 

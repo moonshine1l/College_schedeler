@@ -1,4 +1,4 @@
-package ru.moonshine.college_schedeler;
+package ru.moonshine.college_schedeler.App;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import ru.moonshine.college_schedeler.*;
 
 import java.net.URL;
 import java.sql.*;
@@ -64,6 +65,15 @@ public class Controller implements Initializable {
 
     @FXML
     private ComboBox<String> comboTeacher;
+
+    @FXML
+    private ComboBox<Integer> comboCourseFilter;
+
+    @FXML
+    private ComboBox<String> comboTeacherFilter;
+
+    @FXML
+    private ComboBox<String> comboGroupFilter;
 
     @FXML
     private Button course;
@@ -666,6 +676,7 @@ public class Controller implements Initializable {
                 list.add(num);
                 ObservableList<Integer> lesNum = FXCollections.observableArrayList(list);
                 comboCourse.setItems(lesNum);
+                comboCourseFilter.setItems(lesNum);
             }
 
         } catch (Exception e){
@@ -687,6 +698,7 @@ public class Controller implements Initializable {
                 list.add(str);
                 ObservableList<String> lesNum = FXCollections.observableArrayList(list);
                 comboGroup.setItems(lesNum);
+                comboGroupFilter.setItems(lesNum);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -707,6 +719,7 @@ public class Controller implements Initializable {
                 list.add(str);
                 ObservableList<String> lesNum = FXCollections.observableArrayList(list);
                 comboTeacher.setItems(lesNum);
+                comboTeacherFilter.setItems(lesNum);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -774,11 +787,6 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-
-
-
 
     public void createClassroom(){
         String insertData = "INSERT INTO classroom (number) VALUES (" +classroomNum.getText() +");";

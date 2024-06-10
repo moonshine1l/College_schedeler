@@ -25,5 +25,5 @@ public class timeData {
         return end;
     }
 
-    public Integer getNum() {return num;}
+    public Integer getNum() { return num; }
 }
