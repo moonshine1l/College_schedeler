@@ -109,6 +109,9 @@ public class Controller implements Initializable {
     private DatePicker date;
 
     @FXML
+    private DatePicker dateFilter;
+
+    @FXML
     private Button group;
 
     @FXML
@@ -632,6 +635,144 @@ public class Controller implements Initializable {
 
         scheduleId.setText(String.valueOf(scheduleData.getId()));
 
+    }
+    public String filterSql (){
+
+        String allTable = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id;";
+
+    if (!(dateFilter.getValue() == null)) {
+        String sql = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id\n" +
+                "WHERE `schedule`.`date` = '"+ dateFilter.getValue() +"';";
+
+        return sql;
+    } else if (!(comboTeacherFilter.getValue() == null)){
+        String sql = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id\n" +
+                "WHERE `teacher`.surname = "+ comboTeacherFilter.getValue() +";";
+
+        return sql;
+    } else if (!(comboCourseFilter.getValue() == null)){
+        String sql = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id\n" +
+                "WHERE `course`.`number` = "+ comboCourseFilter.getValue() +";";
+
+        return sql;
+    }else if (!(comboGroupFilter.getValue() == null)){
+        String sql = "SELECT `schedule`.id, `schedule`.`date`, lesson.title as lesson, teacher.surname as teacher, `time`.`number` as 'time', `group`.title as 'group', course.number as course, classroom.`number` as classroom\n" +
+                "FROM `schedule`\n" +
+                "INNER JOIN `lesson`\n" +
+                "on lesson.id = `schedule`.lesson_id\n" +
+                "INNER JOIN `teacher`\n" +
+                "on teacher.id = `schedule`.teacher_id\n" +
+                "INNER JOIN `time`\n" +
+                "on `time`.id = `schedule`.time_id\n" +
+                "INNER JOIN `group`\n" +
+                "on `group`.id = `schedule`.group_id\n" +
+                "INNER JOIN `course`\n" +
+                "on `course`.id = `schedule`.course_id\n" +
+                "INNER JOIN `classroom`\n" +
+                "on `classroom`.id = `schedule`.classroom_id\n" +
+                "WHERE `course`.`title` = "+ comboGroupFilter.getValue() +";";
+
+        return sql;
+    }
+        return allTable;
+    }
+
+    public ObservableList<scheduleData> filterSchedule(){
+        ObservableList<scheduleData> listSchedule = FXCollections.observableArrayList();
+
+
+        con = Database.connectDB();
+        try{
+            scheduleData scheduleData;
+            prepare = con.prepareStatement(filterSql());
+            result = prepare.executeQuery();
+
+            while (result.next()){
+                scheduleData = new scheduleData(result.getInt("id"),
+                        result.getDate("date"),
+                        result.getInt("course"),
+                        result.getString("group"),
+                        result.getInt("time"),
+                        result.getString("lesson"),
+                        result.getString("teacher"),
+                        result.getInt("classroom"));
+
+                listSchedule.add(scheduleData);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }return listSchedule;
+    }
+
+    private ObservableList <scheduleData> addFilterList;
+    public void addFilterShowList(){
+        addFilterList = filterSchedule();
+
+        scheduleIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        scheduleDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        scheduleCourseCol.setCellValueFactory(new PropertyValueFactory<>("course"));
+        scheduleGroupCol.setCellValueFactory(new PropertyValueFactory<>("group"));
+        scheduleNumCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        scheduleLessonCol.setCellValueFactory(new PropertyValueFactory<>("lesson"));
+        scheduleTeacherCol.setCellValueFactory(new PropertyValueFactory<>("teacher"));
+        scheduleClassroomCol.setCellValueFactory(new PropertyValueFactory<>("classroom"));
+
+
+        scheduleTable.setItems(addFilterList);
+
+        System.out.println(dateFilter.getValue());
     }
 
 
