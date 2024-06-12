@@ -1,4 +1,6 @@
-
+DROP DATABASE IF EXIST `college_schedule`;
+CREATE DATABASE `college_schedule`;
+USE `college_schedule`;
 DROP TABLE IF EXISTS `classroom`;
 CREATE TABLE `classroom` (
   `id` int NOT NULL AUTO_INCREMENT,
